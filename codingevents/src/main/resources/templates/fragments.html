@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head>
+<head th:fragment="head">
     <meta charset="UTF-8"/> <!-- Note the closing '/' character -->
-    <title>Title</title>
+    <title>Coding Events</title>
+    <script th:src="@{/script.js}"></script>
+    <link th:href="@{/styles.css}" rel="stylesheet">
+
 </head>
 <body>
 <nav th:fragment="navigation">
     <ul>
         <li><a th:href="@{/events}">All Events</a></li>
-        <li><a href="/even ts/create">Create Events</a></li>
+        <li><a href="/events/create">Create Events</a></li>
     </ul>
 </nav>
 
