@@ -5,9 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-    <h1>Coding Events</h1>
-    <nav th:replace="fragments :: navigation">
+<nav th:fragment="navigation">
+    <ul>
+        <li><a th:href="@{/events}">All Events</a></li>
+        <li><a href="/even ts/create">Create Events</a></li>
+    </ul>
+</nav>
 
-    </nav>
 </body>
 </html>
