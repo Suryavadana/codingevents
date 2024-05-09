@@ -58,4 +58,34 @@ public class EventController {
 
         return "redirect:/events";
     }
+
+    @GetMapping("edit/{eventId}")
+    public String displayEditForm(Model model, @PathVariable int eventId){
+        // Retrieve the event to edit based on the eventId parameter
+        Event eventToEdit = EventData.getById(eventId);
+
+        // Add the event object to the model to make it available in the view
+        model.addAttribute("event", eventToEdit);
+
+        // Create a title for the edit form, including the event name and ID
+        String title = "Edit Event " + eventToEdit.getName() + " (id=" + eventToEdit.getId() + ")";
+        // Add the title to the model to display it in the view
+        model.addAttribute("title", title);
+
+        // Return the name of the template to render, in this case, "events/edit"
+        return "events/edit";
+    }
+    @PostMapping("edit")
+    public String processEditForm(int eventId, String name, String description) {
+        // Retrieve the event to be edited based on the provided eventId
+        Event eventToEdit = EventData.getById(eventId);
+
+        // Update the name and description of the event with the values submitted in the form
+        eventToEdit.setName(name);
+        eventToEdit.setDescription(description);
+
+        // Redirect the user to the "/events" endpoint after editing the event
+        return "redirect:/events";
+    }
+
 }
