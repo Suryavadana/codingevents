@@ -20,19 +20,24 @@ public class Event {
     @AssertTrue(message = "Registration Required.")
     private boolean registrationRequired;
 
+    private EventType type;
     @Positive(message="Number of attendees must be one or more.")
     private int numberOfAttendees;
-    public Event(String name, String description , String contactEmail ,String location, boolean registrationRequired, int numberOfAttendees) {
+    public Event(String name, String description , String contactEmail ,String location, boolean registrationRequired, int numberOfAttendees, EventType type) {
+        this();
         this.name = name;
         this.description=description;
         this.contactEmail=contactEmail;
         this.location=location;
         this.registrationRequired=registrationRequired;
-        this.id=nextId;
+        this.type=type;
         this.numberOfAttendees=numberOfAttendees;
+
+    }
+    public Event(){
+        this.id=nextId;
         nextId++;
     }
-    public Event(){}
     public String getName() {
         return name;
     }
@@ -80,6 +85,14 @@ public class Event {
 
     public void setNumberOfAttendees(int numberOfAttendees) {
         this.numberOfAttendees = numberOfAttendees;
+    }
+
+    public EventType getType() {
+        return type;
+    }
+
+    public void setType(EventType type) {
+        this.type = type;
     }
 
     public int getId() {
