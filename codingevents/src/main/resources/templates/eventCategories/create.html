@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+
+<header th:replace="fragments :: header"></header>
+
+<h2>Create New Event Category</h2>
+
+<form action="#" th:action="@{/eventCategories/create}" th:object="${eventCategory}" method="post">
+    <div class="form-group">
+        <label for="name">Category Name:</label>
+        <input type="text" class="form-control" id="name" th:field="*{name}" required>
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger"></div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+</body>
+</html>
