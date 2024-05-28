@@ -1,17 +1,14 @@
 package org.launchcode.codingevents.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
-import java.util.Objects;
 
 @Entity
-public class Event {
+public class Event extends AbstractEntity {
 
-    @Id
-    @GeneratedValue
-    private int id;
+//    @Id
+//    @GeneratedValue
+//    private int id;
     @NotBlank(message = "Name is required.")
     @Size (min = 3, max = 50 , message = "Name must be between 3 and 50 characters.")
     private String name;
@@ -38,7 +35,9 @@ public class Event {
         this.numberOfAttendees=numberOfAttendees;
 
     }
-    public Event(){}
+    public Event(){
+        super( );
+    }
     public String getName() {
         return name;
     }
@@ -96,25 +95,25 @@ public class Event {
         this.type = type;
     }
 
-    public int getId() {
-        return id;
-    }
+//    public int getId() {
+//        return id;
+//    }
 
     @Override
     public String toString() {
         return name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass( ) != o.getClass( )) return false;
-        Event event = (Event) o;
-        return id == event.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass( ) != o.getClass( )) return false;
+//        Event event = (Event) o;
+//        return id == event.id;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id);
+//    }
 }
