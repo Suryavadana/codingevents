@@ -5,6 +5,8 @@ import org.launchcode.codingevents.data.EventCategoryRepository;
 import org.launchcode.codingevents.data.EventRepository;
 import org.launchcode.codingevents.models.Event;
 import org.launchcode.codingevents.models.EventCategory;
+import org.launchcode.codingevents.models.Tag;
+import org.launchcode.codingevents.models.dto.EventTagDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -108,35 +110,36 @@ public class EventController {
 
         return "events/detail";
     }
-//
-//    @GetMapping("edit/{eventId}")
-//    public String displayEditForm(Model model, @PathVariable int eventId){
-//        // Retrieve the event to edit based on the eventId parameter
-//        Event eventToEdit = EventData.getById(eventId);
-//
-//        // Add the event object to the model to make it available in the view
-//        model.addAttribute("event", eventToEdit);
-//
-//        // Create a title for the edit form, including the event name and ID
-//        String title = "Edit Event " + eventToEdit.getName() + " (id=" + eventToEdit.getId() + ")";
-//        // Add the title to the model to display it in the view
-//        model.addAttribute("title", title);
-//
-//        // Return the name of the template to render, in this case, "events/edit"
-//        return "events/edit";
-//    }
-//    @PostMapping("edit")
-//    public String processEditForm(int eventId, String name, String description) {
-//        // Retrieve the event to be edited based on the provided eventId
-//        Event eventToEdit = EventData.getById(eventId);
-//
-//        // Update the name and description of the event with the values submitted in the form
-//        eventToEdit.setName(name);
-//        eventToEdit.setDescription(description);
 
-    // Redirect the user to the "/events" endpoint after editing the event
+    // responds to /events/add-tag?eventId=13
+    @GetMapping("add-tag")
+    public String displayAddTagForm(@RequestParam Integer eventId, Model model){
+        Optional<Event> result = eventRepository.findById(eventId);
+        Event event = result.get();
+        model.addAttribute("title", "Add Tag to: " + event.getName());
+        model.addAttribute("tags", eventRepository.findAll());
+        EventTagDTO eventTag = new EventTagDTO();
+        eventTag.setEvent(event);
+        model.addAttribute("eventTag", eventTag);
+        return "events/add-tag.html";
+    }
 
-       // return "redirect:/events";
-   // }
+    @PostMapping("add-tag")
+    public String processAddTagForm(@ModelAttribute @Valid EventTagDTO eventTag,
+                                    Errors errors,
+                                    Model model){
+
+        if (!errors.hasErrors()) {
+            Event event = eventTag.getEvent();
+            Tag tag = eventTag.getTag();
+            if (!event.getTags().contains(tag)){
+                event.addTag(tag);
+                eventRepository.save(event);
+            }
+            return "redirect:detail?eventId=" + event.getId();
+        }
+
+        return "redirect:add-tag";
+    }
 
 }
