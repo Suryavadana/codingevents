@@ -1,18 +1,16 @@
 package org.launchcode.codingevents.models;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Event extends AbstractEntity {
 
-//    @Id
-//    @GeneratedValue
-//    private int id;
+
     @NotBlank(message = "Name is required.")
     @Size (min = 3, max = 50 , message = "Name must be between 3 and 50 characters.")
     private String name;
@@ -31,6 +29,9 @@ public class Event extends AbstractEntity {
     private EventCategory eventCategory;
     @Positive(message="Number of attendees must be one or more.")
     private int numberOfAttendees;
+
+    @ManyToMany
+    private final List<Tag> tags = new ArrayList<>( );
     public Event(String name, String location, boolean registrationRequired, int numberOfAttendees, EventCategory eventCategory) {
         this.name = name;
         this.location=location;
@@ -97,6 +98,13 @@ public class Event extends AbstractEntity {
         this.eventDetails = eventDetails;
     }
 
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void addTag(Tag tag){
+        this.tags.add(tag);
+    }
     @Override
     public String toString() {
         return name;
